@@ -26,7 +26,7 @@
 
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">
-
+    <script type="text/javascript" src="views/menuList/sidebarLoad.js"></script>
 </head>
 
 <!-- BODY options, add following classes to body to change options
@@ -63,26 +63,26 @@
         </ul>
     </header>
 
-    <div class="app-body">
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="main.html"><i class="icon-speedometer"></i> Dashboard <span class="badge badge-info">NEW</span></a>
-                    </li>
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i> Components</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="components/buttons.html"><i class="icon-puzzle"></i> Buttons</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="components/search.html"><i class="icon-puzzle"></i> search</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
+    <div class="app-body" >
+        <div class="sidebar" id="siderbar">
+            <!--<nav class="sidebar-nav" >-->
+                <!--<ul class="nav">-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="main.html"><i class="icon-speedometer"></i> Dashboard <span class="badge badge-info">NEW</span></a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item nav-dropdown">-->
+                        <!--<a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i> Components</a>-->
+                        <!--<ul class="nav-dropdown-items">-->
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" href="components/buttons.html"><i class="icon-puzzle"></i> Buttons</a>-->
+                            <!--</li>-->
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" href="components/search.html"><i class="icon-puzzle"></i> search</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</nav>-->
         </div>
         <!-- Main content -->
         <main class="main">
@@ -91,20 +91,6 @@
             <nav class="tag">
                 <!--<li  class="active"> <a href="components/search.html"> search </a> <i class="removeItem">x</i></li>-->
             </nav>
-            <!--<ol class="breadcrumb">-->
-                <!--<li class="breadcrumb-item"><a href="#">Admin</a></li>-->
-                <!--<li class="breadcrumb-item active"><a href="#">Dashboard</a></li>-->
-
-                <!--&lt;!&ndash; Breadcrumb Menu&ndash;&gt;-->
-                <!--<li class="breadcrumb-menu d-md-down-none">-->
-                    <!--<div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
-                        <!--<a class="btn btn-secondary" href="#"><i class="icon-speech"></i></a>-->
-                        <!--<a class="btn btn-secondary" href="./"><i class="icon-graph"></i> &nbsp;Dashboard</a>-->
-                        <!--<a class="btn btn-secondary" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ol>-->
-
 
             <div class="container-fluid">
                 <div id="ui-view"></div>

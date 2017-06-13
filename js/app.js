@@ -140,6 +140,9 @@ if ($.ajaxLoad) {
   $(document).on('click', 'a[href="#"]', function(e) {
     e.preventDefault();
   });
+  //   $("body").delegate('a.nav-link','click', function(e) {
+  //       e.preventDefault();
+  //   });
 }
 
 function setUpUrl(url) {
@@ -149,7 +152,8 @@ function setUpUrl(url) {
   $('nav .nav li.nav-dropdown').removeClass('open');
   $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
   $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
-  var $tagName=$('nav .nav a[href="' + url.split('?')[0] + '"]').text();
+  var $tagName=($('nav .nav a[href="' + url.split('?')[0] + '"]').text() ? $('nav .nav a[href="' + url.split('?')[0] + '"]').text() : " Dashboard ");
+  console.log($tagName);
   loadPage(url);
   configTag(url,$tagName);
 }
@@ -227,17 +231,28 @@ $(document).ready(function($){
   });
 
   // Dropdown Menu
-  $.navigation.on('click', 'a', function(e){
+  // $.navigation.on('click', 'a', function(e){
+  //
+  //   if ($.ajaxLoad) {
+  //     e.preventDefault();
+  //   }
+  //
+  //   if ($(this).hasClass('nav-dropdown-toggle')) {
+  //     $(this).parent().toggleClass('open');
+  //     resizeBroadcast();
+  //   }
+  // });
+    $("#siderbar").delegate( 'a','click', function(e){
 
-    if ($.ajaxLoad) {
-      e.preventDefault();
-    }
+        if ($.ajaxLoad) {
+            e.preventDefault();
+        }
 
-    if ($(this).hasClass('nav-dropdown-toggle')) {
-      $(this).parent().toggleClass('open');
-      resizeBroadcast();
-    }
-  });
+        if ($(this).hasClass('nav-dropdown-toggle')) {
+            $(this).parent().toggleClass('open');
+            resizeBroadcast();
+        }
+    });
 
   function resizeBroadcast() {
 
@@ -284,6 +299,9 @@ $(document).ready(function($){
   $('a[href="#"][data-top!=true]').click(function(e){
     e.preventDefault();
   });
+  // $("#siderbar").delegate('a[href="#"][data-top!=true]','click',function (e) {
+  //     e.preventDefault();
+  // })
 
 });
 
