@@ -11,7 +11,8 @@
     $.mainContent = $('#ui-view');
 
     //Main navigation
-    $.navigation = $('nav > ul.nav')||$('nav.tag');
+    $.navigation = $('nav > ul.nav');
+    $.navigation2 = $('nav.tag')
     console.log($.navigation)
 
   $.panelIconOpened = 'icon-arrow-up';
@@ -137,6 +138,23 @@ if ($.ajaxLoad) {
       setUpUrl(target.attr('href'));
     }
   });
+    $(document).on('click', '.tag a[href!="#"]', function(e) {
+        if ( $(this).parent().parent().hasClass('nav-tabs') || $(this).parent().parent().hasClass('nav-pills') ) {
+            e.preventDefault();
+        } else if ( $(this).attr('target') == '_top' ) {
+            e.preventDefault();
+            var target = $(e.currentTarget);
+            window.location = (target.attr('href'));
+        } else if ( $(this).attr('target') == '_blank' ) {
+            e.preventDefault();
+            var target = $(e.currentTarget);
+            window.open(target.attr('href'));
+        } else {
+            e.preventDefault();
+            var target = $(e.currentTarget);
+            setUpUrl(target.attr('href'));
+        }
+    });
 
   $(document).on('click', 'a[href="#"]', function(e) {
     e.preventDefault();
@@ -154,7 +172,6 @@ function setUpUrl(url) {
   $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
   $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
   var $tagName=($('nav .nav a[href="' + url.split('?')[0] + '"]').text() ? $('nav .nav a[href="' + url.split('?')[0] + '"]').text() : " Dashboard ");
-  console.log($tagName);
   loadPage(url);
   configTag(url,$tagName);
 }
@@ -190,7 +207,6 @@ function configTag(url,$tagName){
     var times=0;
     if($("nav.tag li").length!=0){
         $("nav.tag li").each(function () {
-            console.log($(this).find('a').attr('href'));
             if($(this).find('a').attr('href')==url.split('?')[0]){
                 $(this).addClass('active');
                 return;
@@ -230,6 +246,22 @@ $(document).ready(function($){
       });
     }
   });
+    $.navigation2.find('a').each(function(){
+
+        var cUrl = String(window.location).split('?')[0];
+
+        if (cUrl.substr(cUrl.length - 1) == '#') {
+            cUrl = cUrl.slice(0,-1);
+        }
+
+        if ($($(this))[0].href==cUrl) {
+            $(this).addClass('active');
+
+            $(this).parents('ul').add(this).each(function(){
+                $(this).parent().addClass('open');
+            });
+        }
+    });
 
   // Dropdown Menu
   // $.navigation.on('click', 'a', function(e){
