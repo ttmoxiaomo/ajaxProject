@@ -1,0 +1,36 @@
+// Here you can add other styles
+ul,li{
+  list-style: none;
+}
+.tag{
+  display: flex;
+  padding: 0 30px;
+  background: #ffffff;
+  margin-bottom: 10px;
+  >li{
+    float: left;
+    padding: 15px 15px 5px;
+    position: relative;
+    border-right: 1px solid #CCCCCC;
+    >a{
+      line-height: 10px;
+    }
+    >i.removeItem {
+      position: absolute;
+      transition: background 2s;
+      -webkit-transition: background 2s; /* Safari */
+      top: 0;
+      right: 0px;
+      padding: 0px 5px;
+      cursor: pointer;
+    }
+    >i.removeItem:hover{
+      background: #00aced;
+      transition: background 2s;
+      -webkit-transition: background 2s; /* Safari */
+    }
+  }
+  >li.active{
+    background: #e4e5e6;
+  }
+}
