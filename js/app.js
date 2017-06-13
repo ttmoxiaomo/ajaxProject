@@ -11,7 +11,8 @@
     $.mainContent = $('#ui-view');
 
     //Main navigation
-    $.navigation = $('nav > ul.nav');
+    $.navigation = $('nav > ul.nav')||$('nav.tag');
+    console.log($.navigation)
 
   $.panelIconOpened = 'icon-arrow-up';
   $.panelIconClosed = 'icon-arrow-down';
