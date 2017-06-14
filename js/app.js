@@ -1,6 +1,7 @@
 /*****
 * CONFIGURATION
 */
+
   // Active ajax page loader
   $.ajaxLoad = true;
 
@@ -106,20 +107,38 @@ function loadCSS(cssFile, end, callback) {
 * Load pages asynchronously in ajax mode
 */
 
-if ($.ajaxLoad) {
+function loadSiderBar() {
+    $.ajax({
+        type : 'GET',
+        url : "../views/menuList/sidebar.html",
+        dataType : 'html',
+        cache : false,
+        async: false,
+        success : function(data) {
+            $("#siderbar").empty();
+            $("#siderbar").append(data);
+        },
+        complete:function () {
+            if ($.ajaxLoad) {
+                var paceOptions = {
+                    elements: false,
+                    restartOnRequestAfter: false
+                };
+                var url = location.hash.replace(/^#/, '');
+                if (url != '') {
+                    setUpUrl(url);
+                } else {
+                    setUpUrl($.defaultPage);
+                }
+            }
+        }
+    })
+}
 
-  var paceOptions = {
-    elements: false,
-    restartOnRequestAfter: false
-  };
 
-  var url = location.hash.replace(/^#/, '');
+loadSiderBar()
 
-  if (url != '') {
-    setUpUrl(url);
-  } else {
-    setUpUrl($.defaultPage);
-  }
+
 
   $(document).on('click', '.nav a[href!="#"]', function(e) {
     if ( $(this).parent().parent().hasClass('nav-tabs') || $(this).parent().parent().hasClass('nav-pills') ) {
@@ -162,16 +181,18 @@ if ($.ajaxLoad) {
   //   $("body").delegate('a.nav-link','click', function(e) {
   //       e.preventDefault();
   //   });
-}
+
 
 function setUpUrl(url) {
 
-  $('nav .nav li .nav-link').removeClass('active');
+    console.log("2");
+    console.log("3");
+    $('nav .nav li .nav-link').removeClass('active');
     $("nav.tag li").removeClass('active');
-  $('nav .nav li.nav-dropdown').removeClass('open');
-  $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
-  $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
-  var $tagName=($('nav .nav a[href="' + url.split('?')[0] + '"]').text() ? $('nav .nav a[href="' + url.split('?')[0] + '"]').text() : " Dashboard ");
+    $('nav .nav li.nav-dropdown').removeClass('open');
+    $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
+    $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
+  var $tagName=($('nav .nav a[href="' + url.split('?')[0] + '"]').text() ? $('nav .nav a[href="' + url.split('?')[0] + '"]').text() : url);
   loadPage(url);
   configTag(url,$tagName);
 }
@@ -188,6 +209,7 @@ function loadPage(url) {
       $.mainContent.css({ opacity : 0 });
     },
     success : function() {
+
       Pace.restart();
       $('html, body').animate({ scrollTop: 0 }, 0);
       $.mainContent.load($.subPagesDirectory + url, null, function (responseText) {
@@ -198,11 +220,11 @@ function loadPage(url) {
       window.location.href = $.page404;
     },
       complete:function () {
-          console.log($('nav.tag').children('li'))
+
       }
 
   });
-}
+};
 
 //tag
 function configTag(url,$tagName){
@@ -231,7 +253,6 @@ function configTag(url,$tagName){
 */
 
 $(document).ready(function($){
-
   // Add class .active to current link - AJAX Mode off
   $.navigation.find('a').each(function(){
 
