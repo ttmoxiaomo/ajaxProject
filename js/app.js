@@ -188,7 +188,6 @@ function setUpUrl(url) {
     console.log("2");
     console.log("3");
     $('nav .nav li .nav-link').removeClass('active');
-    $("nav.tag li").removeClass('active');
     $('nav .nav li.nav-dropdown').removeClass('open');
     $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
     $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
@@ -198,7 +197,8 @@ function setUpUrl(url) {
 }
 
 function loadPage(url) {
-
+    $("nav.tag li").removeClass('active');
+    $('nav.tag li:has(a[href="' + url.split('?')[0] + '"])').addClass('active');
   $.ajax({
     type : 'GET',
     url : $.subPagesDirectory + url,
@@ -399,27 +399,20 @@ function init(url) {
 }
 
 function removeItem() {
-    $('body').delegate('.removeItem','click',function () {
-        if($(this).hasClass('active')){
-            var $prev=$(this).parent().prev().length;
-            var $next=$(this).parent().next().length;
-            if($prev==1){
-                $(this).parent().prev().addClass("active");
-                var url=$(this).parent().prev().find('a').attr('href');
-                $(this).parent().remove();
-                loadPage(url);
-            }else if($prev==0&&$next==1) {
-                $(this).parent().next().addClass("active");
-                var url=$(this).parent().next().find('a').attr('href');
-                $(this).parent().remove();
-                loadPage(url);
-            }
-            else {
-                $(this).parent().remove();
-                setUpUrl($.defaultPage);
-            }
-        }else {
+    $('body').delegate('.removeItem','click',function (e) {
+        var $prev=$(this).parent().prev().length;
+        var $next=$(this).parent().next().length;
+        if($prev==1){
+            var url=$(this).parent().prev().find('a').attr('href');
             $(this).parent().remove();
+            loadPage(url);
+        }else if($prev==0&&$next==1) {
+            var url=$(this).parent().next().find('a').attr('href');
+            $(this).parent().remove();
+            loadPage(url);
+        }else{
+            $(this).parent().remove();
+            setUpUrl($.defaultPage);
         }
 
     })
