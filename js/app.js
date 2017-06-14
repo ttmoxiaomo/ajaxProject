@@ -12,8 +12,8 @@
 
     //Main navigation
     $.navigation = $('nav > ul.nav');
-    $.navigation2 = $('nav.tag')
-    console.log($.navigation)
+    $.navigation2 = $('nav.tag');
+
 
   $.panelIconOpened = 'icon-arrow-up';
   $.panelIconClosed = 'icon-arrow-down';
@@ -196,7 +196,10 @@ function loadPage(url) {
     },
     error : function() {
       window.location.href = $.page404;
-    }
+    },
+      complete:function () {
+          console.log($('nav.tag').children('li'))
+      }
 
   });
 }
@@ -233,7 +236,6 @@ $(document).ready(function($){
   $.navigation.find('a').each(function(){
 
     var cUrl = String(window.location).split('?')[0];
-
     if (cUrl.substr(cUrl.length - 1) == '#') {
       cUrl = cUrl.slice(0,-1);
     }
@@ -377,27 +379,28 @@ function init(url) {
 
 function removeItem() {
     $('body').delegate('.removeItem','click',function () {
-      var $prev=$(this).parent().prev().length;
-      var $next=$(this).parent().next().length;
-        console.log($prev);
-        console.log($next);
-      if($prev==1){
-          $(this).parent().prev().addClass("active");
-          var url=$(this).parent().prev().find('a').attr('href');
-          $(this).parent().remove();
-          console.log(url);
-          loadPage(url);
-      }else if($prev==0&&$next==1) {
-          $(this).parent().next().addClass("active");
-          var url=$(this).parent().next().find('a').attr('href');
-          $(this).parent().remove();
-          console.log(url);
-          loadPage(url);
-      }
-      else {
-          $(this).parent().remove();
-          setUpUrl($.defaultPage);
-      }
+        if($(this).hasClass('active')){
+            var $prev=$(this).parent().prev().length;
+            var $next=$(this).parent().next().length;
+            if($prev==1){
+                $(this).parent().prev().addClass("active");
+                var url=$(this).parent().prev().find('a').attr('href');
+                $(this).parent().remove();
+                loadPage(url);
+            }else if($prev==0&&$next==1) {
+                $(this).parent().next().addClass("active");
+                var url=$(this).parent().next().find('a').attr('href');
+                $(this).parent().remove();
+                loadPage(url);
+            }
+            else {
+                $(this).parent().remove();
+                setUpUrl($.defaultPage);
+            }
+        }else {
+            $(this).parent().remove();
+        }
+
     })
 }
 removeItem();
