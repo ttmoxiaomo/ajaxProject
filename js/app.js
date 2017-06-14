@@ -185,8 +185,6 @@ loadSiderBar()
 
 function setUpUrl(url) {
 
-    console.log("2");
-    console.log("3");
     $('nav .nav li .nav-link').removeClass('active');
     $('nav .nav li.nav-dropdown').removeClass('open');
     $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');

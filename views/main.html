@@ -77,6 +77,7 @@
             <table id="example" class="display" cellspacing="0" width="100%">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Position</th>
                     <th>Office</th>
@@ -86,17 +87,6 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Extn.</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                    <th>操作</th>
-                </tr>
-                </tfoot>
             </table>
         </div>
     </div>
@@ -124,39 +114,85 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
+<!--<script src="../bower_components/datatables/media/js/dataTables.foundation.min.js"></script>-->
 <script>
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+            '<td>Full name:</td>'+
+            '<td>'+d.name+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>position:</td>'+
+            '<td>'+d.hr.position+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>Extra info:</td>'+
+            '<td>And any further details here (images etc)...</td>'+
+            '</tr>'+
+            '</table>';
+    }
+
     $(document).ready(function() {
-        $('#example').dataTable({
+        var table=$('#example').DataTable({
+            "aoColumnDefs": [{
+                //设置列不排序
+                "bSortable": false,
+                "targets": [0,7]
+            }],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Chinese.json"
+            },
             "ajax": "../analogData/data.json",
             "columns": [
+                {
+                    "class":          'details-control',
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ''
+                },
                 { "data": "name" },
                 { "data": "hr.position" },
                 { "data": "hr.salary" },
                 { "data": "hr.start_date" },
                 { "data": "hr.salary" },
-                { "data": "hr.start_date" }
+                { "data": "hr.start_date" },
+                { "targets" : 7,//操作按钮目标列
+                    "data" : null,
+                    "render" : function(data, type,row) {
+                        var id = '"' + row.id + '"';
+                        var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 删除</a>"
+                        html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs' data-toggle='modal' data-target='#primaryModal'><i class='fa fa-arrow-up'></i> 编辑</a>"
+//                    html += "<a href='javascript:void(0);'   onclick='deleteThisRowPapser("+ id + ")'  class='down btn btn-default btn-xs'><i class='fa fa-arrow-down'></i> 查看</a>"
+                        return html;
+                    } }
             ],
             "searching" : false, //去掉搜索框方法一
             "bFilter": false,   //去掉搜索框方法二
-            "info" :false,
-            "columnDefs" : [ {
-                // 定义操作列,######以下是重点########
-                "targets" : 6,//操作按钮目标列
-                "data" : null,
-                "render" : function(data, type,row) {
-                    var id = '"' + row.id + '"';
-                    var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 删除</a>"
-                    html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs' data-toggle='modal' data-target='#primaryModal'><i class='fa fa-arrow-up'></i> 编辑</a>"
-//                    html += "<a href='javascript:void(0);'   onclick='deleteThisRowPapser("+ id + ")'  class='down btn btn-default btn-xs'><i class='fa fa-arrow-down'></i> 查看</a>"
-                    return html;
-                }
-            } ],
+            "info" :false
         });
+        $('#example').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+
     });
     
     
     $('table').delegate('.delete','click',function () {
         $(this).parent().parent().remove();
     })
+
+
 </script>
